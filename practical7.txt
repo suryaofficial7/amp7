@@ -1,0 +1,3 @@
+7. Insert the new contents in the following resources and demonstrate their uses in the android application Android Resources: (Color, Theme, String, Drawable, Dimension, Image)
+
+

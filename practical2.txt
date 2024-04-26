@@ -1,0 +1,101 @@
+
+2. Create an android application to pass the data from current application to another  application using intent. 
+
+
+XML  - Main
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <Button
+        android:id="@+id/send_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send Data to Target App" />
+</LinearLayout>
+
+
+XML - activity_target.xml
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Waiting for data..." />
+</LinearLayout>
+
+
+
+
+
+Kotlin - Main
+
+import android.content.Intent
+import android.os.Bundle
+import android.widget.Button
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Get the button from the layout
+        val sendButton: Button = findViewById(R.id.send_button)
+
+        // Set an OnClickListener on the button
+        sendButton.setOnClickListener {
+            // Create an intent to launch the target app
+            val intent = Intent()
+            intent.action = "com.example.TARGET_APP_ACTION" // Replace with the action the target app is listening to
+            intent.putExtra("extra_data", "Hello from Source App!")
+
+            // Check if there is an app that can handle the intent
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            }
+        }
+    }
+}
+
+
+Kotlin -TargetActivity
+
+import android.os.Bundle
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class TargetActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_target)
+
+        // Get the TextView from the layout
+        val textView: TextView = findViewById(R.id.text_view)
+
+        // Get the intent that started the activity
+        val intent = intent
+
+        // Check if the intent has the expected action
+        if (intent.action == "com.example.TARGET_APP_ACTION") {
+            // Get the extra data from the intent
+            val extraData = intent.getStringExtra("extra_data")
+
+            // Display the received data in the TextView
+            textView.text = "Received data: $extraData"
+        }
+    }
+}

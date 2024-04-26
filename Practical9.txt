@@ -1,0 +1,69 @@
+9. Create an android application to demonstrate the use of sub menu the toast should be appeared by selecting the sub menu item
+
+
+XML
+
+NOTHING
+
+
+Create a menu resource file in the res/menu directory. Name the file menu_main.xml and define the main menu and submenu items:
+
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_main_item"
+        android:title="Main Menu">
+        <menu>
+            <!-- Define the submenu -->
+            <item
+                android:id="@+id/submenu_item1"
+                android:title="Submenu Item 1" />
+            <item
+                android:id="@+id/submenu_item2"
+                android:title="Submenu Item 2" />
+        </menu>
+    </item>
+</menu>
+
+
+Kotlin
+
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Set the Toolbar as the AppBar
+        setSupportActionBar(findViewById(R.id.toolbar))
+    }
+
+    // Inflate the menu with the main menu and submenu items
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    // Handle submenu item selections
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.submenu_item1 -> {
+                // Display a Toast message for Submenu Item 1
+                Toast.makeText(this, "Selected Submenu Item 1", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.submenu_item2 -> {
+                // Display a Toast message for Submenu Item 2
+                Toast.makeText(this, "Selected Submenu Item 2", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+}

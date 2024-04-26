@@ -1,0 +1,63 @@
+3. Create an android application to display Alert Dialog on pressing the Back button.
+
+
+
+
+XML
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Press back button to display Alert Dialog"
+        android:textSize="16sp"
+        android:gravity="center" />
+
+</LinearLayout>
+
+
+Kotlin
+
+import android.content.DialogInterface
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+    }
+
+    // Override the onBackPressed method
+    override fun onBackPressed() {
+        // Create an Alert Dialog
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Exit App")
+        builder.setMessage("Are you sure you want to exit the app?")
+        
+        // Set the positive button
+        builder.setPositiveButton("Yes") { dialog, _ ->
+            // Exit the app
+            super.onBackPressed()
+        }
+
+        // Set the negative button
+        builder.setNegativeButton("No") { dialog, _ ->
+            // Dismiss the dialog
+            dialog.dismiss()
+        }
+
+        // Show the dialog
+        val alertDialog = builder.create()
+        alertDialog.show()
+    }
+}

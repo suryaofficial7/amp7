@@ -1,0 +1,69 @@
+8. Create an android application, with one button and image view also set the background image in the application, the image should be changed on each click of the button (Use two images).
+
+
+
+XML
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- ImageView for displaying the image -->
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/image1" />
+
+    <!-- Button to change the image -->
+    <Button
+        android:id="@+id/button_change_image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Change Image"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>
+
+
+
+
+Kotlin
+
+import android.os.Bundle
+import android.widget.Button
+import android.widget.ImageView
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    // Track which image is currently displayed
+    private var isImage1Displayed = true
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Find the ImageView and Button in the layout
+        val imageView: ImageView = findViewById(R.id.image_view)
+        val buttonChangeImage: Button = findViewById(R.id.button_change_image)
+
+        // Set a click listener on the button
+        buttonChangeImage.setOnClickListener {
+            // Change the image in the ImageView
+            if (isImage1Displayed) {
+                // Switch to image2
+                imageView.setImageResource(R.drawable.image2)
+            } else {
+                // Switch to image1
+                imageView.setImageResource(R.drawable.image1)
+            }
+            // Toggle the flag
+            isImage1Displayed = !isImage1Displayed
+        }
+    }
+}
+    

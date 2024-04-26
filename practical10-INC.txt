@@ -1,0 +1,101 @@
+10. Create an android application with customised appbar. Insert search and file  buttons in it and toast the appropriate message on clicking the buttons (add new color in color.xml and use that color for appbar). 
+
+-----------------------------------------------------------------------------------------------------------------
+
+XML
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Toolbar (AppBar) -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/appBarColor"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Custom AppBar" />
+
+    <!-- Main content area -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <!-- Add your main content here -->
+
+    </LinearLayout>
+</LinearLayout>
+
+-----------------------------------------------------------------------------------------------------------------
+
+Create a menu resource file in the res/menu directory. Name the file menu_main.xml and define the search and file buttons:
+
+
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_search"
+        android:title="Search"
+        android:icon="@drawable/ic_search"
+        android:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_file"
+        android:title="File"
+        android:icon="@drawable/ic_file"
+        android:showAsAction="ifRoom" />
+</menu>
+
+
+
+-----------------------------------------------------------------------------------------------------------------
+
+Kotlin
+
+
+import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Set up the Toolbar as the AppBar
+        val toolbar: Toolbar = findViewById(R.id.toolbar)
+        setSupportActionBar(toolbar)
+    }
+
+    // Inflate the menu with the search and file buttons
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    // Handle clicks on the buttons
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> {
+                // Display a Toast message when the search button is clicked
+                Toast.makeText(this, "Search clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            R.id.action_file -> {
+                // Display a Toast message when the file button is clicked
+                Toast.makeText(this, "File clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+}

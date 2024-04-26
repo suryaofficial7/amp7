@@ -1,0 +1,115 @@
+5. Create an android application to demonstrate the following event listeners on the following widgets 
+Button: on click listener, long click listener 
+Image: Touch listener with these motion events =>Action up, action down and action 
+pointer down 
+Edit Text : key listener on Enter key 
+The Appropriate message should be displayed in text view.
+
+
+XML
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Button for demonstrating click and long click listeners -->
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click me" />
+
+    <!-- ImageView for demonstrating touch listener -->
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_launcher_foreground"
+        android:contentDescription="Image" />
+
+    <!-- EditText for demonstrating key listener on Enter key -->
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Type something and press Enter" />
+
+    <!-- TextView for displaying appropriate messages -->
+    <TextView
+        android:id="@+id/message_text_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Messages will appear here" />
+</LinearLayout>
+
+
+
+
+
+
+Kotlin
+
+import android.os.Bundle
+import android.view.KeyEvent
+import android.view.MotionEvent
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
+
+class MainActivity : AppCompatActivity() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
+
+        // Find the widgets by their IDs
+        val button: Button = findViewById(R.id.button)
+        val imageView: ImageView = findViewById(R.id.image_view)
+        val editText: EditText = findViewById(R.id.edit_text)
+        val messageTextView: TextView = findViewById(R.id.message_text_view)
+
+        // Set OnClickListener on the Button
+        button.setOnClickListener {
+            messageTextView.text = "Button clicked!"
+        }
+
+        // Set OnLongClickListener on the Button
+        button.setOnLongClickListener {
+            messageTextView.text = "Button long clicked!"
+            true
+        }
+
+        // Set OnTouchListener on the ImageView
+        imageView.setOnTouchListener { _, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    messageTextView.text = "Image touched (Action Down)"
+                }
+                MotionEvent.ACTION_UP -> {
+                    messageTextView.text = "Image touch released (Action Up)"
+                }
+                MotionEvent.ACTION_POINTER_DOWN -> {
+                    messageTextView.text = "Additional finger touched (Pointer Down)"
+                }
+            }
+            true
+        }
+
+        // Set OnKeyListener on the EditText
+        editText.setOnKeyListener { _, keyCode, event ->
+            if (keyCode == KeyEvent.KEYCODE_ENTER && event.action == KeyEvent.ACTION_DOWN) {
+                // Check if Enter key is pressed
+                messageTextView.text = "Enter key pressed in EditText"
+                true
+            } else {
+                false
+            }
+        }
+    }
+}
